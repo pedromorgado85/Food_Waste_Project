@@ -1,8 +1,18 @@
 const express = require("express");
-const company = require("../models/Person");
+const router = express.Router();
+const Person = require("../models/Person");
 
 router.get("/person/:id", (req, res, next) => {
-  console.log(req.session);
-
-  res.render("/person", { person: req.session.currentUser });
+  Person.findById(req.params.id)
+    .then((personFromDb) => {
+      // const isCurrentUser = personFromDb.id === req.session.currentUser.id;
+      res.render("person", {
+        person: personFromDb,
+        // isCurrentUser: isCurrentUser,
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 });
+module.exports = router;

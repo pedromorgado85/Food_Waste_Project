@@ -27,9 +27,13 @@ const schema = new Schema(
       type: String,
       required: [true, "Password is required."],
     },
-
     description: String,
-    donations: [{ type: Schema.Types.ObjectId, ref: "Donation" }],
+    donations: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Donation",
+      },
+    ],
   },
   {
     timestamps: true,
