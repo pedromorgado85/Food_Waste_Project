@@ -32,6 +32,9 @@ router.post("/signup-company", (req, res, next) => {
         passwordHash: hashedPassword,
       });
     })
+    .then((userFromDB) => {
+      console.log("Newly created user is: ", userFromDB);
+    })
     .catch((error) => next(error));
 });
 
@@ -52,6 +55,9 @@ router.post("/signup-person", (req, res, next) => {
         passwordHash: hashedPassword,
       });
     })
+    .then((userFromDB) => {
+      console.log("Newly created user is: ", userFromDB);
+    })
     .catch((error) => next(error));
 });
 
@@ -71,6 +77,10 @@ router.post("/signup-institution", (req, res, next) => {
         taxnumber,
         passwordHash: hashedPassword,
       });
+    })
+    .then((userFromDB) => {
+      console.log("Newly created user is: ", userFromDB);
+      res.redirect("/institution");
     })
     .catch((error) => next(error));
 });
