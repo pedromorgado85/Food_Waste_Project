@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const { Schema, model } = mongoose;
 
-const privateIndividualSchema = new Schema(
+const schema = new Schema(
   {
     name: {
       type: String,
@@ -29,4 +29,4 @@ const privateIndividualSchema = new Schema(
   }
 );
 
-module.exports = model("PrivateIndividual", modelSchema);
+module.exports = model("Person", schema);

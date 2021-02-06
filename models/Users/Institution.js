@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const { Schema, model } = mongoose;
 
-const institutionSchema = new Schema(
+const schema = new Schema(
   {
     name: {
       type: String,
@@ -35,4 +35,4 @@ const institutionSchema = new Schema(
   }
 );
 
-module.exports = model("Institution", modelSchema);
+module.exports = model("Institution", schema);
