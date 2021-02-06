@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const { Schema, model } = mongoose;
 
-const personSchema = new Schema(
+const privateIndividualSchema = new Schema(
   {
     name: {
       type: String,
@@ -21,7 +21,6 @@ const personSchema = new Schema(
       type: String,
       required: [true, "Password is required."],
     },
-
     description: String,
     donations: [{ type: Schema.Types.ObjectId, ref: "Donation" }],
   },
@@ -30,4 +29,4 @@ const personSchema = new Schema(
   }
 );
 
-module.exports = model("Person", modelSchema);
+module.exports = model("PrivateIndividual", modelSchema);
