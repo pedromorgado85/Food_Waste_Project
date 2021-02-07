@@ -29,7 +29,6 @@ const app = express();
 
 // Routers
 const index = require("./routes/index");
-
 const authRouter = require("./routes/auth.routes");
 
 // ...
@@ -63,10 +62,16 @@ app.use(favicon(path.join(__dirname, "public", "images", "favicon.ico")));
 // default value for title local
 app.locals.title = "Express - Generated with IronGenerator";
 
-const index = require("./routes/index");
+//const index = require("./routes/index");
 app.use("/", index);
 
 const company = require("./routes/company.route");
 app.use("/", company);
+
+const institution = require("./routes/institution.route");
+app.use("/", institution);
+
+const person = require("./routes/person.route");
+app.use("/", person);
 
 module.exports = app;
