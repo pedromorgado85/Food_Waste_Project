@@ -98,7 +98,7 @@ router.post("/signup-person", (req, res, next) => {
     })
     .then((userFromDB) => {
       console.log("Newly created user is: ", userFromDB);
-      res.redirect("auth/login-person");
+      res.redirect("/login-person");
     })
     .catch((error) => next(error));
 });
