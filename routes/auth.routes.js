@@ -24,7 +24,7 @@ router.get("/login-person",(req, res) => res.render("auth/login-person"));
 
   router.post("/signup-company", (req, res, next) => {
     console.log("The form data: ", req.body);
-    const { name, taxnumber, password } = req.body;
+    const { name, taxNumber, password ,email} = req.body;
 
     bcryptjs
       .genSalt(saltRounds)
@@ -34,7 +34,7 @@ router.get("/login-person",(req, res) => res.render("auth/login-person"));
         return Company.create({
           name,
           email,
-          taxnumber,
+          taxNumber,
           password: hashedPassword,
         });
       })
@@ -50,7 +50,7 @@ router.get("/login-person",(req, res) => res.render("auth/login-person"));
 
 router.post("/signup-institution", (req, res, next) => {
   console.log("The form data: ", req.body);
-  const { name, taxnumber, password } = req.body;
+  const { name, taxnumber, password, email } = req.body;
 
   bcryptjs
     .genSalt(saltRounds)
@@ -61,7 +61,7 @@ router.post("/signup-institution", (req, res, next) => {
         // name:name
         name,
         email,
-        taxnumber,
+        taxNumber,
         password: hashedPassword,
       });
     })
