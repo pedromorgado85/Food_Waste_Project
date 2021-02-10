@@ -31,7 +31,7 @@ router.post("/signup", (req, res, next) => {
     .catch((error) => next(error));
 });
 
-router.get("/login", (req, res) => res.render("auth/login-institution"));
+router.get("/login", (req, res) => res.render("institution/login"));
 
 // TODO: Write router.post('/login')
 
