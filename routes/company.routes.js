@@ -1,13 +1,13 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const bcryptjs = require('bcryptjs');
+const bcryptjs = require("bcryptjs");
 const saltRounds = 10;
-const Company = require('../models/Users/Company');
+const Company = require("../models/Users/Company");
 
-router.get('/signup', (req, res) => res.render('company/signup'));
+router.get("/signup", (req, res) => res.render("company/signup"));
 
-router.post('/signup', (req, res, next) => {
-  console.log('New Company form data:', req.body);
+router.post("/signup", (req, res, next) => {
+  console.log("New Company form data:", req.body);
   const { name, taxNumber, password, email } = req.body;
 
   bcryptjs
@@ -23,21 +23,47 @@ router.post('/signup', (req, res, next) => {
       });
     })
     .then((companyFromDB) => {
-      console.log('New Company from db: ', companyFromDB);
-      res.redirect('/company/login');
+      console.log("New Company from db: ", companyFromDB);
+      res.redirect("/company/login");
     })
     .catch((error) => next(error));
 });
 
-router.get('/login', (req, res) => res.render('company/login'));
+router.get("/login", (req, res) => res.render("company/login"));
 
 // TODO: Write router.post('/login')
 
-router.get('/:id', (req, res, next) => {
+router.post("/login", (req, res, next) => {
+  const { name, password } = req.body;
+
+  if (name === "" || password === "") {
+    res.render("company/login", {
+      errorMessage: "Please enter name and password to login.",
+    });
+    return;
+  }
+
+  User.findOne({ name })
+    .then((user) => {
+      if (!user) {
+        res.render("company/login", {
+          errorMessage: "name is not registered. Try with other name.",
+        });
+        return;
+      } else if (bcryptjs.compareSync(password, user.passwordHash)) {
+        res.render("company/profile", { user });
+      } else {
+        res.render("company/login", { errorMessage: "Incorrect password." });
+      }
+    })
+    .catch((error) => next(error));
+});
+
+router.get("/:id", (req, res, next) => {
   Company.findById(req.params.id)
     .then((companyFromDb) => {
       //const isCurrentUser = companyFromDb.id === req.session.currentUser.id;
-      res.render('company/profile', {
+      res.render("company/profile", {
         company: companyFromDb,
         //  isCurrentUser: isCurrentUser,
       });

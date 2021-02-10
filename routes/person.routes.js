@@ -1,13 +1,13 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const bcryptjs = require('bcryptjs');
+const bcryptjs = require("bcryptjs");
 const saltRounds = 10;
-const Person = require('../models/Users/Person');
+const Person = require("../models/Users/Person");
 
-router.get('/signup', (req, res) => res.render('person/signup'));
+router.get("/signup", (req, res) => res.render("person/signup"));
 
-router.post('/signup', (req, res, next) => {
-  console.log('New Person form data: ', req.body);
+router.post("/signup", (req, res, next) => {
+  console.log("New Person form data: ", req.body);
   const { name, email, password } = req.body;
 
   bcryptjs
@@ -22,21 +22,47 @@ router.post('/signup', (req, res, next) => {
       });
     })
     .then((personFromDb) => {
-      console.log('New Person from db: ', personFromDb);
-      res.redirect('/person/login');
+      console.log("New Person from db: ", personFromDb);
+      res.redirect("/person/login");
     })
     .catch((error) => next(error));
 });
 
-router.get('/login', (req, res) => res.render('person/login'));
+router.get("/login", (req, res) => res.render("person/login"));
 
 // TODO: Write router.post('/login')
 
-router.get('/:id', (req, res, next) => {
+router.post("/login", (req, res, next) => {
+  const { name, password } = req.body;
+
+  if (name === "" || password === "") {
+    res.render("person/login", {
+      errorMessage: "Please enter name and password to login.",
+    });
+    return;
+  }
+
+  User.findOne({ name })
+    .then((user) => {
+      if (!user) {
+        res.render("person/login", {
+          errorMessage: "name is not registered. Try with other name.",
+        });
+        return;
+      } else if (bcryptjs.compareSync(password, user.passwordHash)) {
+        res.render("person/profile", { user });
+      } else {
+        res.render("person/login", { errorMessage: "Incorrect password." });
+      }
+    })
+    .catch((error) => next(error));
+});
+
+router.get("/:id", (req, res, next) => {
   Person.findById(req.params.id)
     .then((personFromDb) => {
       // const isCurrentUser = personFromDb.id === req.session.currentUser.id;
-      res.render('users/person', {
+      res.render("users/person", {
         person: personFromDb,
         // isCurrentUser: isCurrentUser,
       });
