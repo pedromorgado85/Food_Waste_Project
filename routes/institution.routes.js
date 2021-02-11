@@ -31,7 +31,7 @@ router.post("/signup", (req, res, next) => {
     .catch((error) => next(error));
 });
 
-router.get("/login", (req, res) => res.render("auth/login-institution"));
+router.get("/login", (req, res) => res.render("institution/login"));
 
 // TODO: Write router.post('/login')
 
@@ -75,4 +75,16 @@ router.get("/:id", (req, res, next) => {
     });
 });
 
+router.get("/:id", (req, res, next) => {
+  Institution.findById(req.params.id)
+    .then((institutionFromDB) => {
+      console.log(institutionFromDB);
+      res.render("institution/list", {
+        institution: institutionFromDB,
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
 module.exports = router;

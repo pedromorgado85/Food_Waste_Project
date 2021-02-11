@@ -73,4 +73,17 @@ router.get("/:id", (req, res, next) => {
     });
 });
 
+router.get("/:id", (req, res, next) => {
+  Company.findById(req.params.id)
+    .then((companyFromDB) => {
+      console.log(companyFromDB);
+      res.render("company/list", {
+        company: companyFromDB,
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
+
 module.exports = router;

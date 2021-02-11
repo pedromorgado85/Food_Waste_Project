@@ -72,4 +72,17 @@ router.get("/:id", (req, res, next) => {
     });
 });
 
+router.get("/:id", (req, res, next) => {
+  Person.findById(req.params.id)
+    .then((personFromDB) => {
+      console.log(personFromDB);
+      res.render("person/list", {
+        person: personFromDB,
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
+
 module.exports = router;

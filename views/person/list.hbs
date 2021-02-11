@@ -1,0 +1,12 @@
+<h2>List of People</h2>
+<hr>
+
+{{#each }}
+<div>
+  <h3>nome: {{this.name}}</h3>
+  <p>id: {{this.id}}</p>
+  <a href="/people/{{this.id}}">show</a>
+
+</div>
+<hr>
+{{/each}}
