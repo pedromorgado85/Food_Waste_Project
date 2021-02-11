@@ -45,15 +45,15 @@ router.post("/login", (req, res, next) => {
     return;
   }
 
-  User.findOne({ name })
-    .then((user) => {
-      if (!user) {
+  Institution.findOne({ name })
+    .then((institutionFromDB) => {
+      if (!institutionFromDB) {
         res.render("institution/login", {
           errorMessage: "name is not registered. Try with other name.",
         });
         return;
-      } else if (bcryptjs.compareSync(password, user.passwordHash)) {
-        res.render("institution/profile", { user });
+      } else if (bcryptjs.compareSync(password, institution.passwordHash)) {
+        res.render("institution/profile", { institution });
       } else {
         res.render("institution/login", {
           errorMessage: "Incorrect password.",
