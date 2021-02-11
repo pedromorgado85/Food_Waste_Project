@@ -23,7 +23,8 @@ router.post("/signup", (req, res, next) => {
     })
     .then((personFromDb) => {
       console.log("New Person from db: ", personFromDb);
-      res.redirect("/person/login");
+      req.session.currentPerson = personFromDb;
+      res.redirect("/person/" + personFromDb._id);
     })
     .catch((error) => next(error));
 });
@@ -49,7 +50,7 @@ router.post("/login", (req, res, next) => {
           errorMessage: "name is not registered. Try with other name.",
         });
       } else if (bcryptjs.compareSync(password, personFromDb.password)) {
-        // req.session.currentPerson = personFromDb;
+        req.session.currentPerson = personFromDb;
         res.render("person/profile", { person: personFromDb });
       } else {
         res.render("person/login", { errorMessage: "Incorrect password." });
@@ -72,12 +73,14 @@ router.get("/list", (req, res, next) => {
 });
 
 router.get("/:id", (req, res, next) => {
+  console.log(req.session);
   Person.findById(req.params.id)
     .then((personFromDb) => {
-      // const isCurrentUser = personFromDb.id === req.session.currentUser.id;
-      res.render("users/person", {
+      const isCurrentUser = personFromDb.id === req.session.currentPerson.id;
+      console.log(`Sou a  mesma pessoa que ta na sessao?`, isCurrentUser);
+      res.render("person/profile", {
         person: personFromDb,
-        // isCurrentUser: isCurrentUser,
+        isCurrentUser: isCurrentUser,
       });
     })
     .catch((err) => {

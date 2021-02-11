@@ -63,6 +63,7 @@ router.post("/login", (req, res, next) => {
 });
 
 router.get("/list", (req, res, next) => {
+  console.log(req.session);
   Institution.find()
     .then((institutionsFromDB) => {
       console.log(institutionsFromDB);
