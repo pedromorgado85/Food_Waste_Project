@@ -36,24 +36,23 @@ router.get("/login", (req, res) => res.render("institution/login"));
 // TODO: Write router.post('/login')
 
 router.post("/login", (req, res, next) => {
-  const { name, password } = req.body;
+  const { email, password } = req.body;
 
-  if (name === "" || password === "") {
+  if (email === "" || password === "") {
     res.render("institution/login", {
       errorMessage: "Please enter name and password to login.",
     });
     return;
   }
 
-  Institution.findOne({ name })
+  Institution.findOne({ email })
     .then((institutionFromDB) => {
       if (!institutionFromDB) {
         res.render("institution/login", {
           errorMessage: "name is not registered. Try with other name.",
         });
-        return;
-      } else if (bcryptjs.compareSync(password, institution.passwordHash)) {
-        res.render("institution/profile", { institution });
+      } else if (bcryptjs.compareSync(password, institutionFromDB.password)) {
+        res.render("institution/profile", { institution: institutionFromDB });
       } else {
         res.render("institution/login", {
           errorMessage: "Incorrect password.",
