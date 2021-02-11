@@ -26,7 +26,8 @@ router.post("/signup", (req, res, next) => {
     })
     .then((institutionFromDB) => {
       console.log("New Institution from Database: ", institutionFromDB);
-      res.redirect("/institution/login");
+      req.session.currentInstitution = institutionFromDb;
+      res.redirect("/institution/" + institutionFromDb._id);
     })
     .catch((error) => next(error));
 });
@@ -52,6 +53,7 @@ router.post("/login", (req, res, next) => {
           errorMessage: "name is not registered. Try with other name.",
         });
       } else if (bcryptjs.compareSync(password, institutionFromDB.password)) {
+        req.session.currentInstitution = institutionFromDb;
         res.render("institution/profile", { institution: institutionFromDB });
       } else {
         res.render("institution/login", {
@@ -77,11 +79,16 @@ router.get("/list", (req, res, next) => {
 });
 
 router.get("/:id", (req, res, next) => {
+  console.log(req.session);
   Institution.findById(req.params.id)
     .then((institutionFromDb) => {
-      // const isCurrentUser = institutionFromDb.id === req.session.currentUser.id;
-      res.render("institution/profile", { institution: institutionFromDb });
-      // isCurrentUser: isCurrentUser,
+      const isCurrentUser =
+        institutionFromDb.id === req.session.currentInstitution.id;
+      console.log(`Sou a  mesma pessoa que ta na sessao?`, isCurrentUser);
+      res.render("institution/profile", {
+        institution: institutionFromDb,
+        isCurrentUser: isCurrentUser,
+      });
     })
     .catch((err) => {
       console.log(err);

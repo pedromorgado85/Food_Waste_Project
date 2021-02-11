@@ -22,9 +22,10 @@ router.post("/signup", (req, res, next) => {
         password: hash,
       });
     })
-    .then((companyFromDB) => {
-      console.log("New Company from db: ", companyFromDB);
-      res.redirect("/company/login");
+    .then((companyFromDb) => {
+      console.log("New Company from db: ", companyFromDb);
+      req.session.currentCompany = companyFromDb;
+      res.redirect("/company/" + companyFromDb._id);
     })
     .catch((error) => next(error));
 });
@@ -50,7 +51,8 @@ router.post("/login", (req, res, next) => {
           errorMessage: "name is not registered. Try with other name.",
         });
       } else if (bcryptjs.compareSync(password, companyFromDB.password)) {
-        res.render("company/profile", { companyFromDB });
+        req.session.currentCompany = companyFromDb;
+        res.render("company/profile", { company: companyFromDb });
       } else {
         res.render("company/login", { errorMessage: "Incorrect password." });
       }
@@ -72,12 +74,14 @@ router.get("/list", (req, res, next) => {
 });
 
 router.get("/:id", (req, res, next) => {
+  console.log(req.session);
   Company.findById(req.params.id)
     .then((companyFromDb) => {
-      //const isCurrentUser = companyFromDb.id === req.session.currentUser.id;
+      const isCurrentUser = companyFromDb.id === req.session.currentCompany.id;
+      console.log(`Sou a  mesma pessoa que ta na sessao?`, isCurrentUser);
       res.render("company/profile", {
         company: companyFromDb,
-        //  isCurrentUser: isCurrentUser,
+        isCurrentUser: isCurrentUser,
       });
     })
     .catch((err) => {
