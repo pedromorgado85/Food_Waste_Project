@@ -75,4 +75,16 @@ router.get("/:id", (req, res, next) => {
     });
 });
 
+router.get("/:id", (req, res, next) => {
+  Institution.findById(req.params.id)
+    .then((institutionFromDB) => {
+      console.log(institutionFromDB);
+      res.render("institution/list", {
+        institution: institutionFromDB,
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
 module.exports = router;

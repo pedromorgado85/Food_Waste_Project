@@ -1,22 +1,22 @@
 {{!-- views/auth/signup.hbs --}}
- 
+
 <div id="signup-company">
   <h2>Signup</h2>
   <form action="/company/signup" method="POST">
     <label for="input-name">name</label>
     <input type="text" id="input-name" name="name" placeholder="Your name" />
- 
+
     <label for="input-taxNumber">Tax Number</label>
     <input type="text" id="input-taxNumber" name="taxNumber" placeholder="Your TaxNumber" />
- 
+
     <label for="input-password">Password</label>
     <input type="password" name="password" id="input-password" placeholder="********" />
 
     <label for="input-email">Email</label>
     <input type="email" name="email" id="input-email" placeholder="********" />
- 
+
     <button type="submit">Create account</button>
- 
+
     {{!-- error message will be added here --}}
   </form>
 </div>
