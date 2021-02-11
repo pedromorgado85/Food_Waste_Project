@@ -1,24 +1,21 @@
 const mongoose = require("mongoose");
 const express = require("express");
-const Person = require("../models/Person");
+const Person = require("../models/Users/Person");
 const people = [
   {
     name: "Joao",
     email: "a@a.com",
     password: "1234567",
-    taxNumber: "123456",
   },
   {
     name: "Joaquim",
     email: "a@a.com",
     password: "1234567",
-    taxNumber: "123456",
   },
   {
     name: "Lourenco",
     email: "a@a.com",
     password: "1234567",
-    taxNumber: "123456",
   },
 ];
 

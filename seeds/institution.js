@@ -1,24 +1,24 @@
 const mongoose = require("mongoose");
 const express = require("express");
-const Institution = require("../models/Institution");
+const Institution = require("../models/Users/Institution");
 const institutions = [
   {
     name: "institution of Joao",
     email: "a@a.com",
     password: "1234567",
-    taxNumber: "123456",
+    taxNumber: "123457",
   },
   {
     name: "institution of Joaquim",
     email: "a@a.com",
     password: "1234567",
-    taxNumber: "123456",
+    taxNumber: "123458",
   },
   {
     name: "institution of Lourenco",
     email: "a@a.com",
     password: "1234567",
-    taxNumber: "123456",
+    taxNumber: "123459",
   },
 ];
 

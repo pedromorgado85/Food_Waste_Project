@@ -59,13 +59,12 @@ router.post("/login", (req, res, next) => {
     .catch((error) => next(error));
 });
 
-router.get("/:id", (req, res, next) => {
-  Company.findById(req.params.id)
-    .then((companyFromDb) => {
-      //const isCurrentUser = companyFromDb.id === req.session.currentUser.id;
-      res.render("company/profile", {
-        company: companyFromDb,
-        //  isCurrentUser: isCurrentUser,
+router.get("/list", (req, res, next) => {
+  Company.find()
+    .then((companiesFromDB) => {
+      console.log(companiesFromDB);
+      res.render("company/list", {
+        companies: companiesFromDB,
       });
     })
     .catch((err) => {
@@ -75,10 +74,11 @@ router.get("/:id", (req, res, next) => {
 
 router.get("/:id", (req, res, next) => {
   Company.findById(req.params.id)
-    .then((companyFromDB) => {
-      console.log(companyFromDB);
-      res.render("company/list", {
-        company: companyFromDB,
+    .then((companyFromDb) => {
+      //const isCurrentUser = companyFromDb.id === req.session.currentUser.id;
+      res.render("company/profile", {
+        company: companyFromDb,
+        //  isCurrentUser: isCurrentUser,
       });
     })
     .catch((err) => {

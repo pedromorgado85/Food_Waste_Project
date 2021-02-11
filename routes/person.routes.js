@@ -58,13 +58,12 @@ router.post("/login", (req, res, next) => {
     .catch((error) => next(error));
 });
 
-router.get("/:id", (req, res, next) => {
-  Person.findById(req.params.id)
-    .then((personFromDb) => {
-      // const isCurrentUser = personFromDb.id === req.session.currentUser.id;
-      res.render("users/person", {
-        person: personFromDb,
-        // isCurrentUser: isCurrentUser,
+router.get("/list", (req, res, next) => {
+  Person.find()
+    .then((peopleFromDB) => {
+      console.log(peopleFromDB);
+      res.render("person/list", {
+        people: peopleFromDB,
       });
     })
     .catch((err) => {
@@ -74,10 +73,11 @@ router.get("/:id", (req, res, next) => {
 
 router.get("/:id", (req, res, next) => {
   Person.findById(req.params.id)
-    .then((personFromDB) => {
-      console.log(personFromDB);
-      res.render("person/list", {
-        person: personFromDB,
+    .then((personFromDb) => {
+      // const isCurrentUser = personFromDb.id === req.session.currentUser.id;
+      res.render("users/person", {
+        person: personFromDb,
+        // isCurrentUser: isCurrentUser,
       });
     })
     .catch((err) => {
