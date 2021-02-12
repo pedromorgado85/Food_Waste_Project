@@ -24,8 +24,8 @@ router.post("/signup", (req, res, next) => {
         password: hash,
       });
     })
-    .then((institutionFromDB) => {
-      console.log("New Institution from Database: ", institutionFromDB);
+    .then((institutionFromDb) => {
+      console.log("New Institution from Database: ", institutionFromDb);
       req.session.currentInstitution = institutionFromDb;
       res.redirect("/institution/" + institutionFromDb._id);
     })
@@ -47,14 +47,14 @@ router.post("/login", (req, res, next) => {
   }
 
   Institution.findOne({ email })
-    .then((institutionFromDB) => {
-      if (!institutionFromDB) {
+    .then((institutionFromDb) => {
+      if (!institutionFromDb) {
         res.render("institution/login", {
           errorMessage: "name is not registered. Try with other name.",
         });
       } else if (bcryptjs.compareSync(password, institutionFromDB.password)) {
         req.session.currentInstitution = institutionFromDb;
-        res.render("institution/profile", { institution: institutionFromDB });
+        res.render("institution/profile", { institution: institutionFromDb });
       } else {
         res.render("institution/login", {
           errorMessage: "Incorrect password.",
@@ -64,13 +64,43 @@ router.post("/login", (req, res, next) => {
     .catch((error) => next(error));
 });
 
+router.get("/:id/edit", (req, res) => {
+  const { id } = req.params;
+
+  Institution.findById(id)
+    .then((institutionToEdit) => {
+      console.log(institutionToEdit);
+      res.render("institution/edit", institutionToEdit);
+    })
+    .catch((error) =>
+      console.log(`Error while getting a single institution for edit: ${error}`)
+    );
+});
+
+router.post("/:id/edit", (req, res) => {
+  const { id } = req.params;
+  const { name, taxNumber, email, password } = req.body;
+
+  Institution.findByIdAndUpdate(
+    id,
+    { name, taxNumber, email, password },
+    { new: true }
+  )
+    .then((updatedInstitution) =>
+      res.redirect(`/institution/profile${updatedInstitution._id}`)
+    )
+    .catch((error) =>
+      console.log(`Error while updating a single institution: ${error}`)
+    );
+});
+
 router.get("/list", (req, res, next) => {
   console.log(req.session);
   Institution.find()
-    .then((institutionsFromDB) => {
-      console.log(institutionsFromDB);
+    .then((institutionsFromDb) => {
+      console.log(institutionsFromDb);
       res.render("institution/list", {
-        institutions: institutionsFromDB,
+        institutions: institutionsFromDb,
       });
     })
     .catch((err) => {
