@@ -94,6 +94,16 @@ router.post("/:id/edit", (req, res) => {
     );
 });
 
+router.post("/:id/delete", (req, res) => {
+  const { id } = req.params;
+
+  Institution.findByIdAndDelete(id)
+    .then(() => res.redirect("/list"))
+    .catch((error) =>
+      console.log(`Error while deleting a institution: ${error}`)
+    );
+});
+
 router.get("/list", (req, res, next) => {
   console.log(req.session);
   Institution.find()

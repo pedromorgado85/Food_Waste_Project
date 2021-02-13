@@ -7,6 +7,8 @@
   <p>id: {{this.id}}</p>
   <a href="/people/{{this.id}}">show</a>
   <a href="/people/{{this.id}}/edit">Edit</a>
+  <form action="/people/{{this.id}}/delete" method="POST"><button>Delete</button>
+  </form>
 </div>
 <hr>
 {{/each}}
