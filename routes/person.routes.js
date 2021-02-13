@@ -77,7 +77,7 @@ router.get("/:id", (req, res, next) => {
   Person.findById(req.params.id)
     .then((personFromDb) => {
       const isCurrentUser = personFromDb.id === req.session.currentPerson.id;
-      console.log(`Sou a  mesma pessoa que ta na sessao?`, isCurrentUser);
+      console.log(`Sou a  mesma pessoa que esta na sessao?`, isCurrentUser);
       res.render("person/profile", {
         person: personFromDb,
         isCurrentUser: isCurrentUser,
