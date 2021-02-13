@@ -1,16 +1,17 @@
-{{company.name}}
-{{company.email}}
-{{company.}}
+
 <h2>Welcome, {{ company.name }}!</h2>
-<p>This is your profile page my friend!</p>
+<p>This is your profile page!</p>
+
 <button>
   <a href="/company/profile">Reload the page</a>
 </button>
-<button>
-  <a href="/company/edit">
+{{company.email}}
+<picture>
+  <source srcset="..." type="image/svg+xml" />
+  <img src="..." class="img-fluid img-thumbnail" alt="..." />
+</picture>
 {{#if isCurrentUser}}
-Edit Profile  </a>
+<button>
+  <a href="/company/edit">Edit Profile  </a>
 </button>
-{{else}}
-<p>Still no logged in user, sorry!</p>
 {{/if}}
