@@ -1,6 +1,7 @@
 <h2>Edit the Person: {{person.name}}</h2>
+{{#if isCurrentUser}}
 
-<form action="/person/{{this.id}}/edit" method="post">
+<form action="/person/{{person.id}}/edit" method="post">
 
   <label for="input-name">name</label>
   <input type="text" id="input-name" name="name" value="{{person.name}}" />

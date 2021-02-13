@@ -1,4 +1,5 @@
 <h2>Edit the company: {{company.name}}</h2>
+{{#if isCurrentUser}}
 
 <form action="/company/{{company.id}}/edit" method="post">
 

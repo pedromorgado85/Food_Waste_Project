@@ -70,7 +70,7 @@ router.get("/:id/edit", (req, res) => {
   Institution.findById(id)
     .then((institutionToEdit) => {
       console.log(institutionToEdit);
-      res.render("institution/edit", (institution: institutionToEdit));
+      res.render("institution/edit", { institution: institutionToEdit });
     })
     .catch((error) =>
       console.log(`Error while getting a single institution for edit: ${error}`)

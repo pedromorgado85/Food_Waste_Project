@@ -1,6 +1,7 @@
 <h2>Edit the institution: {{institution.name}}</h2>
+{{#if isCurrentUser}}
 
-<form action="/institution/{{this.id}}/edit" method="post">
+<form action="/institution/{{institution.id}}/edit" method="post">
 
   <label for="input-name">name</label>
   <input type="text" id="input-name" name="name" value="{{institution.name}}" />
