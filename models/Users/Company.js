@@ -27,7 +27,6 @@ const schema = new Schema(
       type: String,
       required: [true, "Password is required."],
     },
-    photo: Image,
 
     description: String,
 
