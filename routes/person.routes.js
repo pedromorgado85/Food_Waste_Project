@@ -89,7 +89,7 @@ router.post("/:id/delete", (req, res) => {
   const { id } = req.params;
 
   Person.findByIdAndDelete(id)
-    .then(() => res.redirect("/list"))
+    .then(() => res.redirect("person/list"))
     .catch((error) => console.log(`Error while deleting a person: ${error}`));
 });
 

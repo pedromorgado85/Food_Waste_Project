@@ -70,7 +70,7 @@ router.get("/:id/edit", (req, res) => {
   Institution.findById(id)
     .then((institutionToEdit) => {
       console.log(institutionToEdit);
-      res.render("institution/edit", institutionToEdit);
+      res.render("institution/edit", (institution: institutionToEdit));
     })
     .catch((error) =>
       console.log(`Error while getting a single institution for edit: ${error}`)
@@ -98,7 +98,7 @@ router.post("/:id/delete", (req, res) => {
   const { id } = req.params;
 
   Institution.findByIdAndDelete(id)
-    .then(() => res.redirect("/list"))
+    .then(() => res.redirect("/institution/list"))
     .catch((error) =>
       console.log(`Error while deleting a institution: ${error}`)
     );

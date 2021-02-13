@@ -1,15 +1,12 @@
 <h2>Edit the company: {{company.name}}</h2>
 
-<form action="/company/{{this.id}}/edit" method="post">
+<form action="/company/{{company.id}}/edit" method="post">
 
   <label for="input-name">name</label>
   <input type="text" id="input-name" name="name" value="{{company.name}}" />
 
   <label for="input-taxNumber">Tax Number</label>
   <input type="text" id="input-taxNumber" name="taxNumber" value="{{company.taxNumber}}" />
-
-  <label for="input-password">Password</label>
-  <input type="password" name="password" id="input-password" value="{{company.password}}" />
 
   <label for="input-email">Email</label>
   <input type="email" name="email" id="input-email" value="{{company.email}}" />

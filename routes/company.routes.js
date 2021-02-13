@@ -66,7 +66,7 @@ router.get("/:id/edit", (req, res) => {
   Company.findById(id)
     .then((companyToEdit) => {
       console.log(companyToEdit);
-      res.render("company/edit", companyToEdit);
+      res.render("company/edit", { company: companyToEdit });
     })
     .catch((error) =>
       console.log(`Error while getting a single company for edit: ${error}`)
@@ -94,7 +94,7 @@ router.post("/:id/delete", (req, res) => {
   const { id } = req.params;
 
   Company.findByIdAndDelete(id)
-    .then(() => res.redirect("/list"))
+    .then(() => res.redirect("/company/list"))
     .catch((error) => console.log(`Error while deleting a company: ${error}`));
 });
 
@@ -115,7 +115,7 @@ router.get("/:id", (req, res, next) => {
   console.log(req.session);
   Company.findById(req.params.id)
     .then((companyFromDb) => {
-      const isCurrentUser = companyFromDb.id === req.session.currentCompany.id;
+      const isCurrentUser = companyFromDb.id === req.session.currentCompany._id;
       console.log(`Sou a  mesma pessoa que ta na sessao?`, isCurrentUser);
       res.render("company/profile", {
         company: companyFromDb,
