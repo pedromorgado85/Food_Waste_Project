@@ -24,9 +24,10 @@ router.post("/signup", (req, res, next) => {
         password: hash,
       });
     })
-    .then((institutionFromDB) => {
-      console.log("New Institution from Database: ", institutionFromDB);
-      res.redirect("/institution/login");
+    .then((institutionFromDb) => {
+      console.log("New Institution from Database: ", institutionFromDb);
+      req.session.currentInstitution = institutionFromDb;
+      res.redirect("/institution/" + institutionFromDb._id);
     })
     .catch((error) => next(error));
 });
@@ -46,13 +47,14 @@ router.post("/login", (req, res, next) => {
   }
 
   Institution.findOne({ email })
-    .then((institutionFromDB) => {
-      if (!institutionFromDB) {
+    .then((institutionFromDb) => {
+      if (!institutionFromDb) {
         res.render("institution/login", {
           errorMessage: "name is not registered. Try with other name.",
         });
       } else if (bcryptjs.compareSync(password, institutionFromDB.password)) {
-        res.render("institution/profile", { institution: institutionFromDB });
+        req.session.currentInstitution = institutionFromDb;
+        res.render("institution/profile", { institution: institutionFromDb });
       } else {
         res.render("institution/login", {
           errorMessage: "Incorrect password.",
@@ -62,13 +64,53 @@ router.post("/login", (req, res, next) => {
     .catch((error) => next(error));
 });
 
+router.get("/:id/edit", (req, res) => {
+  const { id } = req.params;
+
+  Institution.findById(id)
+    .then((institutionToEdit) => {
+      console.log(institutionToEdit);
+      res.render("institution/edit", institutionToEdit);
+    })
+    .catch((error) =>
+      console.log(`Error while getting a single institution for edit: ${error}`)
+    );
+});
+
+router.post("/:id/edit", (req, res) => {
+  const { id } = req.params;
+  const { name, taxNumber, email, password } = req.body;
+
+  Institution.findByIdAndUpdate(
+    id,
+    { name, taxNumber, email, password },
+    { new: true }
+  )
+    .then((updatedInstitution) =>
+      res.redirect(`/institution/profile${updatedInstitution._id}`)
+    )
+    .catch((error) =>
+      console.log(`Error while updating a single institution: ${error}`)
+    );
+});
+
+router.post("/:id/delete", (req, res) => {
+  const { id } = req.params;
+
+  Institution.findByIdAndDelete(id)
+    .then(() => res.redirect("/list"))
+    .catch((error) =>
+      console.log(`Error while deleting a institution: ${error}`)
+    );
+});
+
 router.get("/list", (req, res, next) => {
   console.log(req.session);
   Institution.find()
-    .then((institutionsFromDB) => {
-      console.log(institutionsFromDB);
+    .then((institutionsFromDb) => {
+      console.log(institutionsFromDb);
       res.render("institution/list", {
-        institutions: institutionsFromDB,
+        institutions: institutionsFromDb,
       });
     })
     .catch((err) => {
@@ -77,11 +119,16 @@ router.get("/list", (req, res, next) => {
 });
 
 router.get("/:id", (req, res, next) => {
+  console.log(req.session);
   Institution.findById(req.params.id)
     .then((institutionFromDb) => {
-      // const isCurrentUser = institutionFromDb.id === req.session.currentUser.id;
-      res.render("institution/profile", { institution: institutionFromDb });
-      // isCurrentUser: isCurrentUser,
+      const isCurrentUser =
+        institutionFromDb.id === req.session.currentInstitution.id;
+      console.log(`Sou a  mesma pessoa que ta na sessao?`, isCurrentUser);
+      res.render("institution/profile", {
+        institution: institutionFromDb,
+        isCurrentUser: isCurrentUser,
+      });
     })
     .catch((err) => {
       console.log(err);

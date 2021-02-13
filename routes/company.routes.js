@@ -22,9 +22,10 @@ router.post("/signup", (req, res, next) => {
         password: hash,
       });
     })
-    .then((companyFromDB) => {
-      console.log("New Company from db: ", companyFromDB);
-      res.redirect("/company/login");
+    .then((companyFromDb) => {
+      console.log("New Company from db: ", companyFromDb);
+      req.session.currentCompany = companyFromDb;
+      res.redirect("/company/" + companyFromDb._id);
     })
     .catch((error) => next(error));
 });
@@ -44,13 +45,14 @@ router.post("/login", (req, res, next) => {
   }
 
   Company.findOne({ email })
-    .then((companyFromDB) => {
-      if (!companyFromDB) {
+    .then((companyFromDb) => {
+      if (!companyFromDb) {
         res.render("company/login", {
           errorMessage: "name is not registered. Try with other name.",
         });
-      } else if (bcryptjs.compareSync(password, companyFromDB.password)) {
-        res.render("company/profile", { companyFromDB });
+      } else if (bcryptjs.compareSync(password, companyFromDb.password)) {
+        req.session.currentCompany = companyFromDb;
+        res.render("company/profile", { company: companyFromDb });
       } else {
         res.render("company/login", { errorMessage: "Incorrect password." });
       }
@@ -58,12 +60,50 @@ router.post("/login", (req, res, next) => {
     .catch((error) => next(error));
 });
 
+router.get("/:id/edit", (req, res) => {
+  const { id } = req.params;
+
+  Company.findById(id)
+    .then((companyToEdit) => {
+      console.log(companyToEdit);
+      res.render("company/edit", companyToEdit);
+    })
+    .catch((error) =>
+      console.log(`Error while getting a single company for edit: ${error}`)
+    );
+});
+
+router.post("/:id/edit", (req, res) => {
+  const { id } = req.params;
+  const { name, taxNumber, email, password } = req.body;
+
+  Company.findByIdAndUpdate(
+    id,
+    { name, taxNumber, email, password },
+    { new: true }
+  )
+    .then((updatedCompany) =>
+      res.redirect(`/company/profile${updatedCompany._id}`)
+    )
+    .catch((error) =>
+      console.log(`Error while updating a single company: ${error}`)
+    );
+});
+
+router.post("/:id/delete", (req, res) => {
+  const { id } = req.params;
+
+  Company.findByIdAndDelete(id)
+    .then(() => res.redirect("/list"))
+    .catch((error) => console.log(`Error while deleting a company: ${error}`));
+});
+
 router.get("/list", (req, res, next) => {
   Company.find()
-    .then((companiesFromDB) => {
-      console.log(companiesFromDB);
+    .then((companiesFromDb) => {
+      console.log(companiesFromDb);
       res.render("company/list", {
-        companies: companiesFromDB,
+        companies: companiesFromDb,
       });
     })
     .catch((err) => {
@@ -72,12 +112,14 @@ router.get("/list", (req, res, next) => {
 });
 
 router.get("/:id", (req, res, next) => {
+  console.log(req.session);
   Company.findById(req.params.id)
     .then((companyFromDb) => {
-      //const isCurrentUser = companyFromDb.id === req.session.currentUser.id;
+      const isCurrentUser = companyFromDb.id === req.session.currentCompany.id;
+      console.log(`Sou a  mesma pessoa que ta na sessao?`, isCurrentUser);
       res.render("company/profile", {
         company: companyFromDb,
-        //  isCurrentUser: isCurrentUser,
+        isCurrentUser: isCurrentUser,
       });
     })
     .catch((err) => {

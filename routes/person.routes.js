@@ -59,12 +59,46 @@ router.post("/login", (req, res, next) => {
     .catch((error) => next(error));
 });
 
+router.get("/:id/edit", (req, res) => {
+  const { id } = req.params;
+
+  Person.findById(id)
+    .then((personToEdit) => {
+      console.log(personToEdit);
+      res.render("person/edit", personToEdit);
+    })
+    .catch((error) =>
+      console.log(`Error while getting a single person for edit: ${error}`)
+    );
+});
+
+router.post("/:id/edit", (req, res) => {
+  const { id } = req.params;
+  const { name, email, password } = req.body;
+
+  Person.findByIdAndUpdate(id, { name, email, password }, { new: true })
+    .then((updatedPerson) =>
+      res.redirect(`/person/profile${updatedPerson._id}`)
+    )
+    .catch((error) =>
+      console.log(`Error while updating a single person: ${error}`)
+    );
+});
+
+router.post("/:id/delete", (req, res) => {
+  const { id } = req.params;
+
+  Person.findByIdAndDelete(id)
+    .then(() => res.redirect("/list"))
+    .catch((error) => console.log(`Error while deleting a person: ${error}`));
+});
+
 router.get("/list", (req, res, next) => {
   Person.find()
-    .then((peopleFromDB) => {
-      console.log(peopleFromDB);
+    .then((peopleFromDb) => {
+      console.log(peopleFromDb);
       res.render("person/list", {
-        people: peopleFromDB,
+        people: peopleFromDb,
       });
     })
     .catch((err) => {

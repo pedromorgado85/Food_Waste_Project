@@ -6,7 +6,9 @@
   <h3>nome: {{this.name}}</h3>
   <p>id: {{this.id}}</p>
   <a href="/institutions/{{this.id}}">show</a>
-
+  <a href="/institutions/{{this.id}}/edit">Edit</a>
+  <form action="/istitutions/{{this.id}}/delete" method="POST"><button>Delete</button>
+  </form>
 </div>
 <hr>
 {{/each}}
