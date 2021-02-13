@@ -1,6 +1,6 @@
-
-
-{{#if company}}
+{{company.name}}
+{{company.email}}
+{{company.}}
 <h2>Welcome, {{ company.name }}!</h2>
 <p>This is your profile page my friend!</p>
 <button>
@@ -8,6 +8,7 @@
 </button>
 <button>
   <a href="/company/edit">
+{{#if isCurrentUser}}
 Edit Profile  </a>
 </button>
 {{else}}

@@ -99,11 +99,13 @@ router.post("/:id/delete", (req, res) => {
 });
 
 router.get("/list", (req, res, next) => {
+  console.log("SESSAO=>>>>>>>", req.session);
   Company.find()
     .then((companiesFromDb) => {
       console.log(companiesFromDb);
       res.render("company/list", {
         companies: companiesFromDb,
+        currentUser: req.session.currentCompany,
       });
     })
     .catch((err) => {

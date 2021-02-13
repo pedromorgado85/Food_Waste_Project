@@ -1,14 +1,31 @@
-<h2>List of Companies</h2>
-<hr>
+<h2>
+  List of Companies
+</h2>
+<hr />
 
 {{#each companies}}
-<div>
-  <h3>nome: {{this.name}}</h3>
-  <p>id: {{this.id}}</p>
-  <a href="/company/{{this.id}}">show</a>
-  <a href="/company/{{this.id}}/edit">Edit</a>
-  <form action="/company/{{this.id}}/delete" method="POST"><button>Delete</button>
-  </form>
-</div>
-<hr>
+  <div>
+    <h3>
+      nome:
+      {{name}}
+    </h3>
+    <p>
+      id da Company:
+      {{id}}
+    </p>
+    <a href="/company/{{id}}">
+      View profile
+    </a>
+    {{#if (isEqual id ../currentUser._id)}}
+    <a href="/company/{{id}}/edit">
+      Edit profile
+    </a>
+    <form action="/company/{{id}}/delete" method="POST">
+      <button>
+        Delete
+      </button>
+    </form>
+    {{/if}}
+  </div>
+  <hr />
 {{/each}}

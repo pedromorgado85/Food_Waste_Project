@@ -9,6 +9,10 @@ const mongoose = require("mongoose");
 const logger = require("morgan");
 const path = require("path");
 
+hbs.registerHelper("isEqual", function (a, b) {
+  return a === b;
+});
+
 mongoose
   .connect("mongodb://localhost/food-waste-project", { useNewUrlParser: true })
   .then((x) => {
