@@ -11,4 +11,8 @@ router.get("/signup", (re, res, next) => {
   res.render("signup");
 });
 
+router.get("/login", (re, res, next) => {
+  res.render("login");
+});
+
 module.exports = router;
