@@ -1,9 +1,14 @@
-{{#if isCurrentUser}}
 <h2>Welcome, {{ institution.name }}!</h2>
-<p>This is your profile page my friend!</p>
+<p>This is your profile page!</p>
 <button>
   <a href="/institution/profile">Reload the page</a>
 </button>
+{{company.email}}
+<picture>
+  <source srcset="..." type="image/svg+xml" />
+  <img src="..." class="img-fluid img-thumbnail" alt="..." />
+</picture>
+{{#if isCurrentUser}}
 <button>
   <a href="/institution/edit">
     Edit Profile

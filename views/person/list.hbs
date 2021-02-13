@@ -2,13 +2,28 @@
 <hr>
 
 {{#each people}}
-<div>
-  <h3>nome: {{this.name}}</h3>
-  <p>id: {{this.id}}</p>
-  <a href="/people/{{this.id}}">show</a>
-  <a href="/people/{{this.id}}/edit">Edit</a>
-  <form action="/people/{{this.id}}/delete" method="POST"><button>Delete</button>
-  </form>
-</div>
-<hr>
+  <div>
+    <h3>
+      nome:
+      {{name}}
+    </h3>
+    <p>
+      id da Person:
+      {{id}}
+    </p>
+    <a href="/person/{{id}}">
+      View profile
+    </a>
+    {{#if (isEqual id ../currentUser._id)}}
+    <a href="/person/{{id}}/edit">
+      Edit profile
+    </a>
+    <form action="/person/{{id}}/delete" method="POST">
+      <button>
+        Delete
+      </button>
+    </form>
+    {{/if}}
+  </div>
+  <hr />
 {{/each}}
