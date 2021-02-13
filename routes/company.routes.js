@@ -65,8 +65,12 @@ router.get("/:id/edit", (req, res) => {
 
   Company.findById(id)
     .then((companyFromDb) => {
+      const isCurrentUser = companyFromDb.id === req.session.currentCompany._id;
       console.log(companyFromDb);
-      res.render("company/edit", { company: companyFromDb });
+      res.render("company/edit", {
+        company: companyFromDb,
+        isCurrentUser: isCurrentUser,
+      });
     })
     .catch((error) =>
       console.log(`Error while getting a single company for edit: ${error}`)
@@ -82,9 +86,9 @@ router.post("/:id/edit", (req, res) => {
     { name, taxNumber, email, password },
     { new: true }
   )
-    .then((updatedCompany) =>
-      res.redirect(`/company/profile${updatedCompany._id}`)
-    )
+    .then((updatedCompany) => {
+      res.redirect(`/company/${updatedCompany._id}`);
+    })
     .catch((error) =>
       console.log(`Error while updating a single company: ${error}`)
     );
@@ -92,9 +96,14 @@ router.post("/:id/edit", (req, res) => {
 
 router.post("/:id/delete", (req, res) => {
   const { id } = req.params;
-
+  const isCurrentUser = companyFromDb.id === req.session.currentCompany._id;
+  if (!isCurrentUser) {
+    res.redirect("/company/list");
+  }
   Company.findByIdAndDelete(id)
-    .then(() => res.redirect("/company/list"))
+    .then(() => {
+      res.redirect("/company/list");
+    })
     .catch((error) => console.log(`Error while deleting a company: ${error}`));
 });
 

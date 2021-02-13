@@ -64,8 +64,12 @@ router.get("/:id/edit", (req, res) => {
 
   Person.findById(id)
     .then((personToEdit) => {
+      const isCurrentUser = personToEdit.id === req.session.currentPerson._id;
       console.log(personToEdit);
-      res.render("person/edit", { person: personToEdit });
+      res.render("person/edit", {
+        person: personToEdit,
+        isCurrentUser: isCurrentUser,
+      });
     })
     .catch((error) =>
       console.log(`Error while getting a single person for edit: ${error}`)
@@ -87,7 +91,10 @@ router.post("/:id/edit", (req, res) => {
 
 router.post("/:id/delete", (req, res) => {
   const { id } = req.params;
-
+  const isCurrentUser = companyFromDb.id === req.session.currentCompany._id;
+  if (!isCurrentUser) {
+    res.redirect("/company/list");
+  }
   Person.findByIdAndDelete(id)
     .then(() => res.redirect("/person/list"))
     .catch((error) => console.log(`Error while deleting a person: ${error}`));
@@ -99,6 +106,7 @@ router.get("/list", (req, res, next) => {
       console.log(peopleFromDb);
       res.render("person/list", {
         people: peopleFromDb,
+        currentUser: req.session.currentPerson,
       });
     })
     .catch((err) => {

@@ -69,8 +69,13 @@ router.get("/:id/edit", (req, res) => {
 
   Institution.findById(id)
     .then((institutionToEdit) => {
+      const isCurrentUser =
+        institutionToEdit.id === req.session.currentInstitution._id;
       console.log(institutionToEdit);
-      res.render("institution/edit", { institution: institutionToEdit });
+      res.render("institution/edit", {
+        institution: institutionToEdit,
+        isCurrentUser: isCurrentUser,
+      });
     })
     .catch((error) =>
       console.log(`Error while getting a single institution for edit: ${error}`)
@@ -111,6 +116,7 @@ router.get("/list", (req, res, next) => {
       console.log(institutionsFromDb);
       res.render("institution/list", {
         institutions: institutionsFromDb,
+        currentUser: req.session.currentInstitution,
       });
     })
     .catch((err) => {
