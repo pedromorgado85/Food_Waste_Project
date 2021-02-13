@@ -64,9 +64,9 @@ router.get("/:id/edit", (req, res) => {
   const { id } = req.params;
 
   Company.findById(id)
-    .then((companyToEdit) => {
-      console.log(companyToEdit);
-      res.render("company/edit", { company: companyToEdit });
+    .then((companyFromDb) => {
+      console.log(companyFromDb);
+      res.render("company/edit", { company: companyFromDb });
     })
     .catch((error) =>
       console.log(`Error while getting a single company for edit: ${error}`)
