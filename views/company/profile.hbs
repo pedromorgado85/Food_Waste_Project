@@ -1,17 +1,26 @@
-
-<h2>Welcome, {{ company.name }}!</h2>
-<p>This is your profile page!</p>
-
+<h2>
+  Welcome,
+  {{company.name}}
+  !
+</h2>
+<p>
+  This is your profile page!
+</p>
 <button>
-  <a href="/company/profile">Reload the page</a>
+  <a href="/company/profile">
+    Reload the page
+  </a>
 </button>
 {{company.email}}
-<picture>
-  <source srcset="..." type="image/svg+xml" />
-  <img src="..." class="img-fluid img-thumbnail" alt="..." />
-</picture>
+<img src="{{company.image}}" class="img-thumbnail" alt="..." />
 {{#if isCurrentUser}}
-<button>
-  <a href="/company/edit">Edit Profile  </a>
-</button>
+  <button>
+    <a href="/company/edit">
+      Edit Profile
+    </a>
+  </button>
+{{else}}
+  <p>
+    Still no logged in user, sorry!
+  </p>
 {{/if}}

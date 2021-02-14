@@ -3,6 +3,7 @@ const router = express.Router();
 const bcryptjs = require("bcryptjs");
 const saltRounds = 10;
 const Person = require("../models/Users/Person");
+const fileUploader = require("../configs/cloudinary.config");
 
 router.get("/signup", (req, res) => res.render("person/signup"));
 
@@ -76,14 +77,16 @@ router.get("/:id/edit", (req, res) => {
     );
 });
 
-router.post("/:id/edit", (req, res) => {
+router.post("/:id/edit", fileUploader.single("image"), (req, res) => {
   const { id } = req.params;
-  const { name, email, password } = req.body;
+  const { name, email, password, existingImage } = req.body;
+  let image = existingImage;
+  if (req.file) {
+    image = req.file.path;
+  }
 
-  Person.findByIdAndUpdate(id, { name, email, password }, { new: true })
-    .then((updatedPerson) =>
-      res.redirect(`/person/profile${updatedPerson._id}`)
-    )
+  Person.findByIdAndUpdate(id, { name, email, password, image }, { new: true })
+    .then((updatedPerson) => res.redirect(`/person/${updatedPerson._id}`))
     .catch((error) =>
       console.log(`Error while updating a single person: ${error}`)
     );
@@ -118,7 +121,7 @@ router.get("/:id", (req, res, next) => {
   console.log(req.session);
   Person.findById(req.params.id)
     .then((personFromDb) => {
-      const isCurrentUser = personFromDb.id === req.session.currentPerson.id;
+      const isCurrentUser = personFromDb.id === req.session.currentUser.id;
       console.log(`Sou a  mesma pessoa que esta na sessao?`, isCurrentUser);
       res.render("person/profile", {
         person: personFromDb,

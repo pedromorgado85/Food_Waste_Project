@@ -3,6 +3,7 @@ const router = express.Router();
 const bcryptjs = require("bcryptjs");
 const saltRounds = 10;
 const Institution = require("../models/Users/Institution");
+const fileUploader = require("../configs/cloudinary.config");
 
 router.get("/signup", (req, res) => {
   res.render("institution/signup");
@@ -82,17 +83,25 @@ router.get("/:id/edit", (req, res) => {
     );
 });
 
-router.post("/:id/edit", (req, res) => {
+router.post("/:id/edit", fileUploader.single("image"), (req, res) => {
   const { id } = req.params;
-  const { name, taxNumber, email, password } = req.body;
-
+  const { name, email, password, existingImage } = req.body;
+  let image = existingImage;
+  if (req.file) {
+    image = req.file.path;
+  }
   Institution.findByIdAndUpdate(
     id,
     { name, taxNumber, email, password },
     { new: true }
+  );
+  Institution.findByIdAndUpdate(
+    id,
+    { name, email, password, image },
+    { new: true }
   )
     .then((updatedInstitution) =>
-      res.redirect(`/institution/profile${updatedInstitution._id}`)
+      res.redirect(`/institution/${updatedInstitution._id}`)
     )
     .catch((error) =>
       console.log(`Error while updating a single institution: ${error}`)

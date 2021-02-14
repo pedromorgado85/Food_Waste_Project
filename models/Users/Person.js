@@ -21,11 +21,12 @@ const schema = new Schema(
       type: String,
       required: [true, "Password is required."],
     },
-    
-
     description: String,
-
     donations: [{ type: Schema.Types.ObjectId, ref: "Donation" }],
+    image: {
+      type: String,
+      default: "https://eu.ui-avatars.com/api/?background=random"
+    }
   },
   {
     timestamps: true,

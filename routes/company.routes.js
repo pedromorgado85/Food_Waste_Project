@@ -3,6 +3,7 @@ const router = express.Router();
 const bcryptjs = require("bcryptjs");
 const saltRounds = 10;
 const Company = require("../models/Users/Company");
+const fileUploader = require("../configs/cloudinary.config");
 
 router.get("/signup", (req, res) => res.render("company/signup"));
 
@@ -77,18 +78,16 @@ router.get("/:id/edit", (req, res) => {
     );
 });
 
-router.post("/:id/edit", (req, res) => {
+router.post("/:id/edit", fileUploader.single("image"), (req, res) => {
   const { id } = req.params;
-  const { name, taxNumber, email, password } = req.body;
+  const { name, email, password, existingImage } = req.body;
+  let image = existingImage;
+  if (req.file) {
+    image = req.file.path;
+  }
 
-  Company.findByIdAndUpdate(
-    id,
-    { name, taxNumber, email, password },
-    { new: true }
-  )
-    .then((updatedCompany) => {
-      res.redirect(`/company/${updatedCompany._id}`);
-    })
+  Company.findByIdAndUpdate(id, { name, email, password, image }, { new: true })
+    .then((updatedCompany) => res.redirect(`/company/${updatedCompany._id}`))
     .catch((error) =>
       console.log(`Error while updating a single company: ${error}`)
     );
@@ -127,7 +126,7 @@ router.get("/:id", (req, res, next) => {
   Company.findById(req.params.id)
     .then((companyFromDb) => {
       const isCurrentUser = companyFromDb.id === req.session.currentCompany._id;
-      console.log(`Sou a  mesma pessoa que ta na sessao?`, isCurrentUser);
+      console.log(`Sou a  mesma companhia que ta na sessao?`, isCurrentUser);
       res.render("company/profile", {
         company: companyFromDb,
         isCurrentUser: isCurrentUser,

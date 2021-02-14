@@ -1,17 +1,44 @@
 {{#if isCurrentUser}}
-<h2>Edit the Person: {{person.name}}</h2>
 
-<form action="/person/{{person.id}}/edit" method="post">
-
-  <label for="input-name">name</label>
-  <input type="text" id="input-name" name="name" value="{{person.name}}" />
-
-  <label for="input-password">Password</label>
-  <input type="password" name="password" id="input-password" value="{{person.password}}" />
-
-  <label for="input-email">Email</label>
-  <input type="email" name="email" id="input-email" value="{{person.email}}" />
-
-  <button type="submit">Save changes</button>
-
-</form>
+<h2>
+  Edit the Company:
+  {{company.name }}
+</h2>
+<form
+  action="/company/{{ company.id }}/edit"
+  method="post"
+  enctype="multipart/form-data"
+>
+  <label for="input-name"> name </label>
+  <input type="text" id="input-name" name="name" value="{{ company.name }}" />
+  <label for="input-password"> Password </label>
+  <input
+    type="password"
+    name="password"
+    id="input-password"
+    value="{{ company.password }}"
+  />
+  <label for="input-email"> Email </label>
+  <input
+    type="email"
+    name="email"
+    id="input-email"
+    value="{{ company.email }}"
+  />
+  <div class="form-group">
+    <label for="image-input"> Image: </label>
+    <input
+      type="file"
+      name="image"
+      id="image-input"
+      class="form-control-file"
+    />
+    <input
+      type="text"
+      name="existingImage"
+      hidden
+      id=""
+      value="{{ company.image }}"
+    />
+  </div>
+  {{/if}}
