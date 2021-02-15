@@ -13,9 +13,10 @@
 </button>
 {{person.email}}
 <img src="{{person.image}}" class="img-thumbnail" alt="..." />
+
 {{#if (isEqual id currentUser._id)}}
 <button>
-  <a href="/person/edit">
+  <a href="/person/{{person._id}}edit">
     Edit Profile
   </a>
 </button>
