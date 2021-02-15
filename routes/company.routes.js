@@ -4,6 +4,7 @@ const bcryptjs = require("bcryptjs");
 const saltRounds = 10;
 const Company = require("../models/Users/Company");
 const fileUploader = require("../configs/cloudinary.config");
+const getCurrentUser = require("../helpers");
 
 router.get("/signup", (req, res) => res.render("company/signup"));
 
@@ -66,11 +67,11 @@ router.get("/:id/edit", (req, res) => {
 
   Company.findById(id)
     .then((companyFromDb) => {
-      const isCurrentUser = companyFromDb.id === req.session.currentCompany._id;
+      const currentUser = getCurrentUser(req.session);
       console.log(companyFromDb);
       res.render("company/edit", {
         company: companyFromDb,
-        isCurrentUser: isCurrentUser,
+        currentUser,
       });
     })
     .catch((error) =>
@@ -95,10 +96,6 @@ router.post("/:id/edit", fileUploader.single("image"), (req, res) => {
 
 router.post("/:id/delete", (req, res) => {
   const { id } = req.params;
-  const isCurrentUser = companyFromDb.id === req.session.currentCompany._id;
-  if (!isCurrentUser) {
-    res.redirect("/company/list");
-  }
   Company.findByIdAndDelete(id)
     .then(() => {
       res.redirect("/company/list");
@@ -107,13 +104,12 @@ router.post("/:id/delete", (req, res) => {
 });
 
 router.get("/list", (req, res, next) => {
-  console.log("SESSAO=>>>>>>>", req.session);
   Company.find()
     .then((companiesFromDb) => {
       console.log(companiesFromDb);
       res.render("company/list", {
         companies: companiesFromDb,
-        currentUser: req.session.currentCompany,
+        currentUser: getCurrentUser(req.session),
       });
     })
     .catch((err) => {
@@ -125,11 +121,10 @@ router.get("/:id", (req, res, next) => {
   console.log(req.session);
   Company.findById(req.params.id)
     .then((companyFromDb) => {
-      const isCurrentUser = companyFromDb.id === req.session.currentCompany._id;
-      console.log(`Sou a  mesma companhia que ta na sessao?`, isCurrentUser);
+      const currentUser = getCurrentUser(req.session);
       res.render("company/profile", {
         company: companyFromDb,
-        isCurrentUser: isCurrentUser,
+        currentUser: getCurrentUser(req.session),
       });
     })
     .catch((err) => {

@@ -4,6 +4,7 @@ const bcryptjs = require("bcryptjs");
 const saltRounds = 10;
 const Person = require("../models/Users/Person");
 const fileUploader = require("../configs/cloudinary.config");
+const getCurrentUser = require("../helpers");
 
 router.get("/signup", (req, res) => res.render("person/signup"));
 
@@ -65,11 +66,11 @@ router.get("/:id/edit", (req, res) => {
 
   Person.findById(id)
     .then((personToEdit) => {
-      const isCurrentUser = personToEdit.id === req.session.currentPerson._id;
+      const currentUser = getCurrentUser(req.session);
       console.log(personToEdit);
       res.render("person/edit", {
         person: personToEdit,
-        isCurrentUser: isCurrentUser,
+        currentUser,
       });
     })
     .catch((error) =>
@@ -94,12 +95,10 @@ router.post("/:id/edit", fileUploader.single("image"), (req, res) => {
 
 router.post("/:id/delete", (req, res) => {
   const { id } = req.params;
-  const isCurrentUser = companyFromDb.id === req.session.currentCompany._id;
-  if (!isCurrentUser) {
-    res.redirect("/company/list");
-  }
   Person.findByIdAndDelete(id)
-    .then(() => res.redirect("/person/list"))
+    .then(() => {
+      res.redirect("/person/list");
+    })
     .catch((error) => console.log(`Error while deleting a person: ${error}`));
 });
 
@@ -109,7 +108,7 @@ router.get("/list", (req, res, next) => {
       console.log(peopleFromDb);
       res.render("person/list", {
         people: peopleFromDb,
-        currentUser: req.session.currentPerson,
+        currentUser: getCurrentUser(req.session),
       });
     })
     .catch((err) => {
@@ -121,11 +120,9 @@ router.get("/:id", (req, res, next) => {
   console.log(req.session);
   Person.findById(req.params.id)
     .then((personFromDb) => {
-      const isCurrentUser = personFromDb.id === req.session.currentUser.id;
-      console.log(`Sou a  mesma pessoa que esta na sessao?`, isCurrentUser);
       res.render("person/profile", {
         person: personFromDb,
-        isCurrentUser: isCurrentUser,
+        currentUser: getCurrentUser(req.session),
       });
     })
     .catch((err) => {

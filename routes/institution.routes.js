@@ -4,6 +4,7 @@ const bcryptjs = require("bcryptjs");
 const saltRounds = 10;
 const Institution = require("../models/Users/Institution");
 const fileUploader = require("../configs/cloudinary.config");
+const getCurrentUser = require("../helpers");
 
 router.get("/signup", (req, res) => {
   res.render("institution/signup");
@@ -53,7 +54,7 @@ router.post("/login", (req, res, next) => {
         res.render("institution/login", {
           errorMessage: "name is not registered. Try with other name.",
         });
-      } else if (bcryptjs.compareSync(password, institutionFromDB.password)) {
+      } else if (bcryptjs.compareSync(password, institutionFromDb.password)) {
         req.session.currentInstitution = institutionFromDb;
         res.render("institution/profile", { institution: institutionFromDb });
       } else {
@@ -70,12 +71,10 @@ router.get("/:id/edit", (req, res) => {
 
   Institution.findById(id)
     .then((institutionToEdit) => {
-      const isCurrentUser =
-        institutionToEdit.id === req.session.currentInstitution._id;
       console.log(institutionToEdit);
       res.render("institution/edit", {
         institution: institutionToEdit,
-        isCurrentUser: isCurrentUser,
+        currentUser: getCurrentUser(req.session),
       });
     })
     .catch((error) =>
@@ -125,7 +124,7 @@ router.get("/list", (req, res, next) => {
       console.log(institutionsFromDb);
       res.render("institution/list", {
         institutions: institutionsFromDb,
-        currentUser: req.session.currentInstitution,
+        currentUser: getCurrentUser(req.session),
       });
     })
     .catch((err) => {
@@ -134,15 +133,11 @@ router.get("/list", (req, res, next) => {
 });
 
 router.get("/:id", (req, res, next) => {
-  console.log(req.session);
   Institution.findById(req.params.id)
     .then((institutionFromDb) => {
-      const isCurrentUser =
-        institutionFromDb.id === req.session.currentInstitution.id;
-      console.log(`Sou a  mesma pessoa que ta na sessao?`, isCurrentUser);
       res.render("institution/profile", {
         institution: institutionFromDb,
-        isCurrentUser: isCurrentUser,
+        currentUser: getCurrentUser(req.session),
       });
     })
     .catch((err) => {

@@ -13,14 +13,16 @@
 </button>
 {{company.email}}
 <img src="{{company.image}}" class="img-thumbnail" alt="..." />
-{{#if isCurrentUser}}
-  <button>
-    <a href="/company/edit">
-      Edit Profile
-    </a>
-  </button>
+
+
+{{#if (isEqual id currentUser._id)}}
+<button>
+  <a href="/company/{{company._id}}/edit">
+    Edit Profile
+  </a>
+</button>
 {{else}}
-  <p>
-    Still no logged in user, sorry!
-  </p>
+<p>
+  Still no logged in user, sorry!
+</p>
 {{/if}}

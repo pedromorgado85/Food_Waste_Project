@@ -1,43 +1,22 @@
-{{#if isCurrentUser}}
+{{#if currentUser}}
 <h2>
   Edit the Institution:
   {{ institution.name }}
 </h2>
-<form
-  action="/institution/{{ institution.id }}/edit"
-  method="post"
-  enctype="multipart/form-data"
->
+<form action="/institution/{{ institution.id }}/edit" method="post" enctype="multipart/form-data">
   <label for="input-name"> name </label>
   <input type="text" id="input-name" name="name" value="{{ institution.name }}" />
   <label for="input-password"> Password </label>
-  <input
-    type="password"
-    name="password"
-    id="input-password"
-    value="{{ institution.password }}"
-  />
+  <input type="password" name="password" id="input-password" value="{{ institution.password }}" />
   <label for="input-email"> Email </label>
-  <input
-    type="email"
-    name="email"
-    id="input-email"
-    value="{{ institution.email }}"
-  />
+  <input type="email" name="email" id="input-email" value="{{ institution.email }}" />
   <div class="form-group">
     <label for="image-input"> Image: </label>
-    <input
-      type="file"
-      name="image"
-      id="image-input"
-      class="form-control-file"
-    />
-    <input
-      type="text"
-      name="existingImage"
-      hidden
-      id=""
-      value="{{ institution.image }}"
-    />
+    <input type="file" name="image" id="image-input" class="form-control-file" />
+    <input type="text" name="existingImage" hidden id="" value="{{ institution.image }}" />
   </div>
-  {{/if}}
+  <button type="submit">
+    save
+  </button>
+</form>
+{{/if}}
