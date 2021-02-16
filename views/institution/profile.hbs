@@ -13,15 +13,24 @@
 </button>
 {{institution.email}}
 <img src="{{institution.image}}" class="img-thumbnail" alt="..." />
-
+{{donation.id}}
+<form action="/institution/{{institution._id}}/donation" method="post">
+  <input type="text" name="description" id="description" />
+  <button type="submit">
+    donate
+  </button>
+</form>
+{{#each institution.donations}}
+  {{description}}
+{{/each}}
 {{#if (isEqual id currentUser._id)}}
-<button>
-  <a href="/institution/{{institution._id}}/edit">
-    Edit Profile
-  </a>
-</button>
+  <button>
+    <a href="/institution/{{institution._id}}/edit">
+      Edit Profile
+    </a>
+  </button>
 {{else}}
-<p>
-  Still no logged in user, sorry!
-</p>
+  <p>
+    Still no logged in user, sorry!
+  </p>
 {{/if}}

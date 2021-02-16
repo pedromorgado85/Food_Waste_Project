@@ -3,8 +3,11 @@ const router = express.Router();
 const bcryptjs = require("bcryptjs");
 const saltRounds = 10;
 const Institution = require("../models/Users/Institution");
+const Donation = require("../models/Donation");
+const Company = require("../models/Users/Company");
+const Person = require("../models/Users/Person");
 const fileUploader = require("../configs/cloudinary.config");
-const getCurrentUser = require("../helpers");
+const { getCurrentUser, getCurrentUserType } = require("../helpers");
 
 router.get("/signup", (req, res) => {
   res.render("institution/signup");
@@ -66,8 +69,42 @@ router.post("/login", (req, res, next) => {
     .catch((error) => next(error));
 });
 
+// MAKE A DONATION PROCESS
 router.post("/:id/donation", (req, res, next) => {
-  // MAKE A DONATION PROCESS
+  const { id } = req.params;
+  const { description } = req.body;
+  const currentUser = getCurrentUser(req.session);
+  const currentUserType = getCurrentUserType(req.session);
+  let donationId = null;
+
+  Donation.create({
+    donor_id: currentUser._id,
+    donor_type: currentUserType,
+    receiver_id: id,
+    receiver_type: "institution",
+    description,
+  })
+    .then((donationFromDb) => {
+      donationId = donationFromDb._id;
+      return Institution.findByIdAndUpdate(id, {
+        $push: { donations: donationId },
+      });
+    })
+    .then((institutionFromDb) => {
+      if (currentUserType === "company") {
+        return Company.findByIdAndUpdate(currentUser._id, {
+          $push: { donations: donationId },
+        });
+      } else if (currentUserType === "person") {
+        return Person.findByIdAndUpdate(currentUser._id, {
+          $push: { donations: donationId },
+        });
+      }
+    })
+    .then((updatedUser) => {
+      res.redirect(`/institution/${id}`);
+    })
+    .catch((error) => console.log(`Error while creating a donation: ${error}`));
 });
 
 router.get("/:id/edit", (req, res) => {
@@ -138,6 +175,7 @@ router.get("/list", (req, res, next) => {
 
 router.get("/:id", (req, res, next) => {
   Institution.findById(req.params.id)
+    .populate("donations")
     .then((institutionFromDb) => {
       res.render("institution/profile", {
         institution: institutionFromDb,

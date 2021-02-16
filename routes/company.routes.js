@@ -4,7 +4,7 @@ const bcryptjs = require("bcryptjs");
 const saltRounds = 10;
 const Company = require("../models/Users/Company");
 const fileUploader = require("../configs/cloudinary.config");
-const getCurrentUser = require("../helpers");
+const { getCurrentUser } = require("../helpers");
 
 router.get("/signup", (req, res) => res.render("company/signup"));
 

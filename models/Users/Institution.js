@@ -32,7 +32,6 @@ const schema = new Schema(
       default: "https://eu.ui-avatars.com/api/?background=random",
     },
     description: String,
-
     donations: [{ type: Schema.Types.ObjectId, ref: "Donation" }],
   },
   {

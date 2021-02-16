@@ -29,10 +29,9 @@ const schema = new Schema(
     },
     image: {
       type: String,
-      default: "https://eu.ui-avatars.com/api/?background=random"
+      default: "https://eu.ui-avatars.com/api/?background=random",
     },
     description: String,
-
     donations: [
       {
         type: Schema.Types.ObjectId,

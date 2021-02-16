@@ -10,4 +10,16 @@ const getCurrentUser = (session) => {
   }
 };
 
-module.exports = getCurrentUser;
+const getCurrentUserType = (session) => {
+  if (session.currentCompany) {
+    return "company";
+  } else if (session.currentInstitution) {
+    return "institution";
+  } else if (session.currentPerson) {
+    return "person";
+  } else {
+    return false;
+  }
+};
+
+module.exports = {getCurrentUser,getCurrentUserType }
