@@ -66,6 +66,10 @@ router.post("/login", (req, res, next) => {
     .catch((error) => next(error));
 });
 
+router.post("/:id/donation", (req, res, next) => {
+  // MAKE A DONATION PROCESS
+});
+
 router.get("/:id/edit", (req, res) => {
   const { id } = req.params;
 
