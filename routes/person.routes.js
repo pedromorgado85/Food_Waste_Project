@@ -53,7 +53,7 @@ router.post("/login", (req, res, next) => {
         });
       } else if (bcryptjs.compareSync(password, personFromDb.password)) {
         req.session.currentPerson = personFromDb;
-        res.render("person/profile", { person: personFromDb });
+        res.redirect("/person/" + personFromDb._id);
       } else {
         res.render("person/login", { errorMessage: "Incorrect password." });
       }

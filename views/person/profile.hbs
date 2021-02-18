@@ -1,14 +1,16 @@
 <div class="card" style="width: 18rem;">
   <h2>
-    Welcome,
+
     {{person.name}}
-    !
+
   </h2>
-  <p>
-    This is your profile page!
-  </p>
+
   <div>
-    {{#if (isEqual id currentUser._id)}}
+    {{id}}
+    {{#if (isEqual person.id currentUser._id)}}
+    <p>
+      Welcome, this is your profile page!
+    </p>
     <button>
       <a href="/person/{{person._id}}/edit" class="btn btn-primary">
         Edit Profile
@@ -26,5 +28,14 @@
     <p class="card-text">description of the person
     </p>
     <a href="#" class="btn btn-primary">link to person
+  </div>
+</div>
+
+<div class="card text-white bg-danger mb-3" style="max-width: 18rem;">
+  <div class="card-header">{{person.name}}</div>
+  <div class="card-body">
+    <h5 class="card-title">Danger card title</h5>
+    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.
+    </p>
   </div>
 </div>

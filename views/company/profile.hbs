@@ -1,14 +1,16 @@
 <div class="card" style="width: 18rem;">
   <h2>
-    Welcome,
+
     {{company.name}}
-    !
+
   </h2>
-  <p>
-    This is your profile page!
-  </p>
+
   <div>
-    {{#if (isEqual id currentUser._id)}}
+    {{id}}
+    {{#if (isEqual company.id currentUser._id)}}
+    <p>
+      Welcome, this is your profile page!
+    </p>
     <button>
       <a href="/company/{{company._id}}/edit" class="btn btn-primary">
         Edit Profile

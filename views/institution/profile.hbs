@@ -1,36 +1,43 @@
-<h2>
-  Welcome,
-  {{institution.name}}
-  !
-</h2>
-<p>
-  This is your profile page!
-</p>
-<button>
-  <a href="/institution/profile">
-    Reload the page
-  </a>
-</button>
-{{institution.email}}
-<img src="{{institution.image}}" class="img-thumbnail" alt="..." />
-{{donation.id}}
-<form action="/institution/{{institution._id}}/donation" method="post">
-  <input type="text" name="description" id="description" />
-  <button type="submit">
-    donate
-  </button>
-</form>
-{{#each institution.donations}}
-  {{description}}
-{{/each}}
-{{#if (isEqual id currentUser._id)}}
-  <button>
-    <a href="/institution/{{institution._id}}/edit">
-      Edit Profile
-    </a>
-  </button>
-{{else}}
-  <p>
-    Still no logged in user, sorry!
-  </p>
-{{/if}}
+<div class="card" style="width: 18rem;">
+  <h2>
+
+    {{institution.name}}
+
+  </h2>
+
+  <div>
+    {{id}}
+    {{#if (isEqual institution.id currentUser._id)}}
+    <p>
+      Welcome, this is your profile page!
+    </p>
+    <button>
+      <a href="/institution/{{institution._id}}/edit" class="btn btn-primary">
+        Edit Profile
+      </a>
+    </button>
+    {{else}}
+    <p>
+      Still no logged in user, sorry!
+    </p>
+    {{/if}}
+    <div>
+      <img src="{{institution.image}}" class="img-thumbnail" alt="..." />
+      <div class="card-body">
+        <h5 class="card-title">{{institution.email}}</h5>
+        <p class="card-text">description of the institution
+        </p>
+        <a href="#" class="btn btn-primary">link to institution web site</a>
+      </div>
+      {{donation.id}}
+      <form action="/institution/{{institution._id}}/donation" method="post">
+        <input type="text" name="description" id="description" />
+        <button type="submit" class="btn btn-primary">
+          donate
+        </button>
+      </form>
+      {{#each institution.donations}}
+      {{description}}
+      {{/each}}
+    </div>
+  </div>

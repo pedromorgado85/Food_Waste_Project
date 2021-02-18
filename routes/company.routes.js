@@ -54,7 +54,7 @@ router.post("/login", (req, res, next) => {
         });
       } else if (bcryptjs.compareSync(password, companyFromDb.password)) {
         req.session.currentCompany = companyFromDb;
-        res.render("company/profile", { company: companyFromDb });
+        res.redirect("/company/" + companyFromDb._id);
       } else {
         res.render("company/login", { errorMessage: "Incorrect password." });
       }
@@ -121,7 +121,6 @@ router.get("/:id", (req, res, next) => {
   console.log(req.session);
   Company.findById(req.params.id)
     .then((companyFromDb) => {
-      const currentUser = getCurrentUser(req.session);
       res.render("company/profile", {
         company: companyFromDb,
         currentUser: getCurrentUser(req.session),

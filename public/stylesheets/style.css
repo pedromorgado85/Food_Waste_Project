@@ -5,4 +5,8 @@ body {
 a {
   color: #00b7ff; }
 
+#signup-person {
+  display: flex;
+  flex-direction: column; }
+
 /*# sourceMappingURL=style.css.map */

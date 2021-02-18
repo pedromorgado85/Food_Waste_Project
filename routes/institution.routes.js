@@ -59,7 +59,7 @@ router.post("/login", (req, res, next) => {
         });
       } else if (bcryptjs.compareSync(password, institutionFromDb.password)) {
         req.session.currentInstitution = institutionFromDb;
-        res.render("institution/profile", { institution: institutionFromDb });
+        res.redirect("/institution/" + institutionFromDb._id);
       } else {
         res.render("institution/login", {
           errorMessage: "Incorrect password.",
