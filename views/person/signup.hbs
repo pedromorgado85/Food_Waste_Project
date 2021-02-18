@@ -1,19 +1,23 @@
 {{!-- views/auth/signup.hbs --}}
- 
-<div id="signup-person">
-  <h2>Signup</h2>
-  <form action="/person/signup" method="POST">
-    <label for="input-name">Name</label>
-    <input type="text" id="input-name" name="name" placeholder="Your name" />
- 
-    <label for="input-email">Email</label>
-    <input type="email" id="input-email" name="email" placeholder="Your email" />
- 
-    <label for="input-password">Password</label>
-    <input type="password" name="password" id="input-password" placeholder="********" />
- 
-    <button type="submit">Create account</button>
- 
-    {{!-- error message will be added here --}}
-  </form>
+
+<div class="text-center">
+  <div id="signup-person">
+    <main class="form-signin">
+      <h1 class="h3 mb-3 fw-normal">Please sign in (Person)</h1>
+      <form action="/person/signup" method="POST">
+        <label for="input-name" class="visually-hidden">Name</label>
+        <input type="text" id="input-name" name="name" placeholder="Your name" />
+
+        <label for="input-email">Email</label>
+        <input type="email" id="input-email" name="email" placeholder="Your email" />
+
+        <label for="input-password">Password</label>
+        <input type="password" name="password" id="input-password" placeholder="********" />
+        <div class="checkbox mb-3">
+          <button class="w-100 btn btn-lg btn-primary" type="submit">Create account</button>
+
+          {{!-- error message will be added here --}}
+      </form>
+  </div>
+  </main>
 </div>

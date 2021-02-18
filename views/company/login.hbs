@@ -1,19 +1,20 @@
-<div id="login-company">
-  <h2>
-    Login
-  </h2>
-  <form action="/company/login" method="POST">
-    <label for="input-email">
-      email
-    </label>
-    <input type="text" id="input-email" name="email" placeholder="Your email" />
-    <label for="input-password">
-      Password
-    </label>
-    <input type="password" name="password" id="input-password" placeholder="********" />
-    <button type="submit">
-      Login
-    </button>
-    {{! error message will be added here }}
-  </form>
+<div class="text-center">
+  <div id="login-company">
+    <main class="form-login">
+      <h1 class="h3 mb-3 fw-normal">Login (Company)</h1>
+      <form action="/company/login" method="POST">
+        <label for="input-email">
+          email
+        </label>
+        <input type="text" id="input-email" name="email" placeholder="Your email" />
+        <label for="input-password">
+          Password
+        </label>
+        <input type="password" name="password" id="input-password" placeholder="********" />
+        <button class="w-100 btn btn-lg btn-primary" type="submit">Login</button>
+
+        {{! error message will be added here }}
+      </form>
+  </div>
+  </main>
 </div>
