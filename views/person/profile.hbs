@@ -1,27 +1,30 @@
-<h2>
-  Welcome,
-  {{person.name}}
-  !
-</h2>
-<p>
-  This is your profile page!
-</p>
-<button>
-  <a href="/person/profile">
-    Reload the page
-  </a>
-</button>
-{{person.email}}
-<img src="{{person.image}}" class="img-thumbnail" alt="..." />
-
-{{#if (isEqual id currentUser._id)}}
-<button>
-  <a href="/person/{{person._id}}edit">
-    Edit Profile
-  </a>
-</button>
-{{else}}
-<p>
-  Still no logged in user, sorry!
-</p>
-{{/if}}
+<div class="card" style="width: 18rem;">
+  <h2>
+    Welcome,
+    {{person.name}}
+    !
+  </h2>
+  <p>
+    This is your profile page!
+  </p>
+  <div>
+    {{#if (isEqual id currentUser._id)}}
+    <button>
+      <a href="/person/{{person._id}}/edit" class="btn btn-primary">
+        Edit Profile
+      </a>
+    </button>
+    {{else}}
+    <p>
+      Still no logged in user, sorry!
+    </p>
+    {{/if}}
+  </div>
+  <img src="{{person.image}}" class="img-thumbnail" alt="..." />
+  <div class="card-body">
+    <h5 class="card-title">{{person.email}}</h5>
+    <p class="card-text">description of the person
+    </p>
+    <a href="#" class="btn btn-primary">link to person
+  </div>
+</div>

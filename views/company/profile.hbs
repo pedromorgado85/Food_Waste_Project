@@ -1,28 +1,30 @@
-<h2>
-  Welcome,
-  {{company.name}}
-  !
-</h2>
-<p>
-  This is your profile page!
-</p>
-<button>
-  <a href="/company/profile">
-    Reload the page
-  </a>
-</button>
-{{company.email}}
-<img src="{{company.image}}" class="img-thumbnail" alt="..." />
-
-
-{{#if (isEqual id currentUser._id)}}
-<button>
-  <a href="/company/{{company._id}}/edit">
-    Edit Profile
-  </a>
-</button>
-{{else}}
-<p>
-  Still no logged in user, sorry!
-</p>
-{{/if}}
+<div class="card" style="width: 18rem;">
+  <h2>
+    Welcome,
+    {{company.name}}
+    !
+  </h2>
+  <p>
+    This is your profile page!
+  </p>
+  <div>
+    {{#if (isEqual id currentUser._id)}}
+    <button>
+      <a href="/company/{{company._id}}/edit" class="btn btn-primary">
+        Edit Profile
+      </a>
+    </button>
+    {{else}}
+    <p>
+      Still no logged in user, sorry!
+    </p>
+    {{/if}}
+  </div>
+  <img src="{{company.image}}" class="img-thumbnail" alt="..." />
+  <div class="card-body">
+    <h5 class="card-title">{{company.email}}</h5>
+    <p class="card-text">description of the company
+    </p>
+    <a href="#" class="btn btn-primary">link to company web site</a>
+  </div>
+</div>
