@@ -35,9 +35,11 @@
             donate
           </button>
         </form>
-        {{#each institution.donations}}
-        {{description}}
-        {{/each}}
+        <ul>
+          {{#each institution.donations}}
+          <li>{{donor_id.name}} - {{description}}</li>
+          {{/each}}
+        </ul>
       </div>
     </div>
   </div>

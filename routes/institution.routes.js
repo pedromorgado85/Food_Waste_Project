@@ -171,8 +171,12 @@ router.get("/list", (req, res, next) => {
 
 router.get("/:id", (req, res, next) => {
   Institution.findById(req.params.id)
-    .populate("donations")
+    .populate({
+      path: "donations",
+      populate: { path: "donor_id", model: "Company" },
+    })
     .then((institutionFromDb) => {
+      //console.log(institutionFromDb);
       res.render("institution/profile", {
         institution: institutionFromDb,
         currentUser: getCurrentUser(req.session),

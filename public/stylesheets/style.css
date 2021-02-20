@@ -1,37 +1,20 @@
 body {
   padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-  background-color: rgb(194, 224, 194);
-}
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif; }
 
 a {
-  color: #00b7ff;
-}
+  color: #00b7ff; }
 
 #signup-person {
   display: flex;
-  flex-direction: column;
-}
+  flex-direction: column; }
 
 #signup-company {
   display: flex;
-  flex-direction: column;
-}
+  flex-direction: column; }
 
 #signup-institution {
   display: flex;
-  flex-direction: column;
-}
-.card-text{
-font-style: inherit;
-}
-
-.card-header{
- font-size: large;
-}
-
-
-
-
+  flex-direction: column; }
 
 /*# sourceMappingURL=style.css.map */
