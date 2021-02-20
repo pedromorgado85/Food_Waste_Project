@@ -1,11 +1,11 @@
 body {
   padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-  background-color: #12be1b;
+  background-color: rgb(194, 224, 194);
 }
 
 a {
-  color: #00ffc8;
+  color: #00b7ff;
 }
 
 #signup-person {
@@ -22,22 +22,14 @@ a {
   display: flex;
   flex-direction: column;
 }
-
-/* #navbar-nav > li {
-  padding-left: 40px;
-  padding-right: 40px;
-  font-size: 0.5cm;
-  justify-content: flex-end;
+.card-text{
+font-style: inherit;
 }
 
-.navbar-nav > li {
-  margin-left: 40px;
-  margin-right: 40px;
-  font-size: 0.5cm;
-  justify-content: flex-end;
+.card-header{
+ font-size: large;
 }
-.navbar-expand-lg{
-  justify-self: left;
-} */
+
+
 
 /*# sourceMappingURL=style.css.map */
