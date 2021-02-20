@@ -15,8 +15,12 @@ hbs.registerHelper("isEqual", function (a, b) {
 
 mongoose
   .connect(
-    `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASS}@cluster0.xbhyn.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`,
-    { useNewUrlParser: true }
+    `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASS}@cluster0.xbhyn.mongodb.net/dontwaste?retryWrites=true&w=majority`,
+    {
+      useNewUrlParser: true,
+      useCreateIndex: true,
+      useUnifiedTopology: true,
+    }
   )
   .then((x) => {
     console.log(
