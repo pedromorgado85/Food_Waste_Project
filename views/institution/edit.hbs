@@ -1,22 +1,26 @@
-{{#if currentUser}}
-<h2>
-  Edit the Institution:
-  {{ institution.name }}
+<h2 class="col-12 text-center">
+  Edit
 </h2>
-<form action="/institution/{{ institution.id }}/edit" method="post" enctype="multipart/form-data">
-  <label for="input-name"> name </label>
-  <input type="text" id="input-name" name="name" value="{{ institution.name }}" />
-  <label for="input-password"> Password </label>
-  <input type="password" name="password" id="input-password" value="{{ institution.password }}" />
-  <label for="input-email"> Email </label>
-  <input type="email" name="email" id="input-email" value="{{ institution.email }}" />
-  <div class="form-group">
-    <label for="image-input"> Image: </label>
-    <input type="file" name="image" id="image-input" class="form-control-file" />
-    <input type="text" name="existingImage" hidden id="" value="{{ institution.image }}" />
-  </div>
-  <button type="submit" class="btn btn-primary">
-    save
-  </button>
-</form>
-{{/if}}
+<div class="d-flex justify-content-center">
+  {{#if currentUser}}
+
+  <form action="/institution/{{ institution.id }}/edit" method="post" enctype="multipart/form-data"
+    class="col-12 col-md-4">
+    <label for="input-name" class="form-label">Name</label>
+    <input type="text" class="form-control" id="input-name" name="name" value="{{ institution.name }}" />
+    <label for="input-password" class="form-label">Password</label>
+    <input type="password" class="form-control" name="password" id="input-password"
+      value="{{ institution.password }}" />
+    <label for="input-email" class="form-label">Email</label>
+    <input type="email" class="form-control" name="email" id="input-email" value="{{ institution.email }}" />
+    <div class="form-group">
+      <label for="image-input" class="form-label">Image</label>
+      <input type="file" class="form-control" name="image" id="image-input" class="form-control-file" />
+      <input type="text" name="existingImage" hidden id="" value="{{ institution.image }}" />
+    </div>
+    <button type="submit" class="btn btn-primary">
+      save
+    </button>
+  </form>
+  {{/if}}
+</div>
