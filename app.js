@@ -14,7 +14,10 @@ hbs.registerHelper("isEqual", function (a, b) {
 });
 
 mongoose
-  .connect("mongodb://localhost/food-waste-project", { useNewUrlParser: true })
+  .connect(
+    `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASS}@cluster0.xbhyn.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`,
+    { useNewUrlParser: true }
+  )
   .then((x) => {
     console.log(
       `Connected to Mongo! Database name: "${x.connections[0].name}"`
