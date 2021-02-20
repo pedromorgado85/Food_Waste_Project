@@ -130,11 +130,7 @@ router.post("/:id/edit", fileUploader.single("image"), (req, res) => {
   if (req.file) {
     image = req.file.path;
   }
-  Institution.findByIdAndUpdate(
-    id,
-    { name, taxNumber, email, password },
-    { new: true }
-  );
+
   Institution.findByIdAndUpdate(
     id,
     { name, email, password, image },

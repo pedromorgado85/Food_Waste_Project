@@ -1,10 +1,10 @@
 {{!-- views/auth/signup.hbs --}}
 
 <div class="text-center">
-  <div id="signup-company">
+  <div>
     <main class="form-signin">
       <h1 class="h3 mb-3 fw-normal">Please sign in (Company)</h1>
-      <form action="/person/signup" method="POST">
+      <form action="/company/signup" method="POST" id="signup-company">
         <label for="input-name" class="visually-hidden">Name</label>
         <input type="text" id="input-name" name="name" placeholder="Your name" />
         <label for="input-taxNumber">Tax Number</label>
