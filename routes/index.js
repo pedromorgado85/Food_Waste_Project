@@ -1,10 +1,11 @@
 const express = require("express");
 const router = express.Router();
+const { getCurrentUser } = require("../helpers");
 
 /* GET home page */
 router.get("/", (req, res, next) => {
   console.log("routes index");
-  res.render("index");
+  res.render("index", { currentUser: getCurrentUser(req.session) });
 });
 
 router.get("/signup", (re, res, next) => {
