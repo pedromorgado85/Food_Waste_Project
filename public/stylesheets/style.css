@@ -1,20 +1,29 @@
 body {
   padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif; }
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  background-color: rgb(232, 247, 232);
+}
 
 a {
-  color: #00b7ff; }
+  color: #00b7ff;
+}
 
 #signup-person {
   display: flex;
-  flex-direction: column; }
+  flex-direction: column;
+}
 
 #signup-company {
   display: flex;
-  flex-direction: column; }
+  flex-direction: column;
+}
 
 #signup-institution {
   display: flex;
-  flex-direction: column; }
+  flex-direction: column;
+}
 
+blockquote {
+  text-align: center;
+}
 /*# sourceMappingURL=style.css.map */
