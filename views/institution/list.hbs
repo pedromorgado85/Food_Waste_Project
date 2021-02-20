@@ -2,28 +2,28 @@
 <hr>
 
 {{#each institutions}}
-  <div>
-    <h3>
-      nome:
-      {{name}}
-    </h3>
-    <p>
-      id da Institution:
-      {{id}}
-    </p>
-    <a href="/institution/{{id}}">
-      View profile
-    </a>
-    {{#if (isEqual id ../currentUser._id)}}
-    <a href="/institution/{{id}}/edit">
-      Edit profile
-    </a>
-    <form action="/institution/{{id}}/delete" method="POST">
-      <button>
-        Delete
-      </button>
-    </form>
-    {{/if}}
-  </div>
-  <hr />
+<div>
+  <h3>
+    nome:
+    {{name}}
+  </h3>
+  <p>
+    id da Institution:
+    {{id}}
+  </p>
+  <a href="/institution/{{id}}" class="btn btn-primary">
+    View profile
+  </a>
+  {{#if (isEqual id ../currentUser._id)}}
+  <a href="/institution/{{id}}/edit">
+    Edit profile
+  </a>
+  <form action="/institution/{{id}}/delete" method="POST">
+    <button>
+      Delete
+    </button>
+  </form>
+  {{/if}}
+</div>
+<hr />
 {{/each}}
